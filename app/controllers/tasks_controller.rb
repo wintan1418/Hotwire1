@@ -4,6 +4,19 @@ class TasksController < ApplicationController
         @task = Task.new
       end
 
+      def create
+        @task = Task.new(task_params)
+
+        respond_to do |format|
+            if @task.save
+             format.html {redirect_to tasks_url, notice: "You have successfully created a task"}
+            else
+                format.html {render :new, status: "unprocessible_entity"}
+
+            end
+        end
+     end
+
       def toggle
         @task = Task.find(params[:id])
         @task.update(completed: params[:completed])
@@ -32,18 +45,7 @@ class TasksController < ApplicationController
         redirect_to tasks_url, notice: "Post was successfully deleted."
       end
 
-    def create
-        @task = Task.new(task_params)
-
-        respond_to do |format|
-            if @task.save
-             format.html {redirect_to tasks_url, notice: "You have successfully created a task"}
-            else
-                format.html {render :new, status: "unprocessible_entity"}
-
-    end
- end
-end
+   
 
 private
 
